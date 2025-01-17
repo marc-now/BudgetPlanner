@@ -46,7 +46,7 @@ function ProtectedRoute({children}) {
         }
     }
 
-    if (isAuthorized = null) {
+    if (isAuthorized === null) {
         return <div>Loading...</div>
     }
 
