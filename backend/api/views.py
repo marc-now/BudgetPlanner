@@ -50,8 +50,7 @@ class EntryDelete(generics.DestroyAPIView):
     permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
-        user = self.request.user
-        return Entry.objects.filter(author=user)
+        return Entry.objects.filter(account__user=self.request.user)
 
 
 class CreateUserView(generics.CreateAPIView):
