@@ -25,7 +25,11 @@ function RegisterForm() {
             alert("Account registered! You can now log in.")
 
         } catch (error) {
-            alert(error)
+            if (error.response && error.response.status === 400) {
+                alert("Podana nazwa użytkownika lub email już istnieje.");
+            } else {
+                alert("Wystąpił błąd podczas rejestracji. Spróbuj ponownie później.");
+            }
         } finally {
             setLoading(false)
         }

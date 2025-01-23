@@ -23,7 +23,11 @@ function LoginForm() {
             navigate("/")
 
         } catch (error) {
-            alert(error)
+            if (error.response && error.response.status === 401) {
+                alert("Nieprawidłowa nazwa użytkownika lub hasło. Spróbuj ponownie.");
+            } else {
+                alert("Wystąpił błąd podczas logowania. Spróbuj ponownie później.");
+            }
         } finally {
             setLoading(false)
         }
