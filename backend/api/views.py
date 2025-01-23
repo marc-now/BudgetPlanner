@@ -33,14 +33,17 @@ class EntryListCreate(generics.ListCreateAPIView):
     permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
-        user = self.request.user
-        return Entry.objects.filter(user=user)
+        # sprawdzmay obiekty account z danego entry
+        # z nich sprawdzamy obiekty user
+        # jesli sie zgadza, to zwracamy
+        return Entry.objects.filter(account__user=self.request.user)
 
     def perform_create(self, serializer):
-        if serializer.is_valid():
-            serializer.save(user=self.request.user)
-        else:
-            print(serializer.errors)
+        default_account = Account.objects.filter(user=self.request.user).first()
+        category_name = self.request.data.get("category")
+        category, created = Category.objects.get_or_create(name=category_name)
+        serializer.save(account=default_account, category=category)
+
 
 class EntryDelete(generics.DestroyAPIView):
     serializer_class = EntrySerializer
@@ -55,3 +58,7 @@ class CreateUserView(generics.CreateAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
     permission_classes = [AllowAny]
+
+    def perform_create(self, serializer):
+        user = serializer.save()
+        Account.objects.create(name="default", user=user)
