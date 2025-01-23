@@ -1,0 +1,36 @@
+.entry-container {
+    padding: 10px;
+    margin: 20px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background: linear-gradient(90deg, #96e2b8, #f3989c);
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); /* Dostosoje kolumny do szerokości */
+    gap: 10px; /* Odstępy między elementami */
+  }
+  
+  .entry-title {
+    color: #222020;
+  }
+  
+  .entry-content {
+    color: #2e2828;
+  }
+  
+  .entry-date {
+    color: #474545;
+  }
+  
+  .delete-button {
+    background-color: #f44336; /* Red */
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .delete-button:hover {
+    background-color: #d32f2f; /* Darker red */
+  }
