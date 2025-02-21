@@ -37,13 +37,13 @@ function App() {
         <Route 
           path="/logout"
           element={
-            <Login />
+            Logout()
           }
         />
         <Route 
           path="/register"
           element={
-            <Register />
+            RegisterAndLogout()
           }
         />
         <Route 
