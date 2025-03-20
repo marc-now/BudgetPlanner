@@ -1,24 +1,27 @@
 import React from "react"
 import { BrowserRouter, Routes, Route, Navigate} from "react-router-dom"
-import Login from "./pages/Login"
-import Register from "./pages/Register"
+import Auth from "./pages/Auth"
 import Home from "./pages/Home"
 import NotFound from "./pages/NotFound"
 import ProtectedRoute from "./components/ProtectedRoute"
 
 function Logout() {
+  console.log("logout")
   localStorage.clear()
   return <Navigate to="/login" />
 }
 
 function RegisterAndLogout() {
   localStorage.clear()
-  return <Register />
+  return <Navigate to="/login" />
 }
 
 function App() {
-  return (
+  return (<>
     <BrowserRouter>
+    { 
+    // <Navbar /> 
+    }
       <Routes>
         <Route 
           path="/"
@@ -31,19 +34,19 @@ function App() {
         <Route 
           path="/login"
           element={
-            <Login />
+            <Auth/>
           }
         />
         <Route 
           path="/logout"
           element={
-            Logout()
+            <Logout />
           }
         />
         <Route 
           path="/register"
           element={
-            RegisterAndLogout()
+            <RegisterAndLogout />
           }
         />
         <Route 
@@ -54,7 +57,7 @@ function App() {
         />
       </Routes>
     </BrowserRouter>
-  )
+  </>)
 }
 
 export default App
