@@ -44,6 +44,12 @@ class EntryListCreate(generics.ListCreateAPIView):
         category, created = Category.objects.get_or_create(name=category_name)
         serializer.save(account=default_account, category=category)
 
+class CategoryListCreate(generics.ListCreateAPIView):
+    serializer_class = CategorySerializer
+    permission_classes = [IsAuthenticated]
+
+    queryset = Category.objects.all()
+
 
 class EntryDelete(generics.DestroyAPIView):
     serializer_class = EntrySerializer

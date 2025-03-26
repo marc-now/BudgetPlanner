@@ -1,13 +1,14 @@
 import { useState, useEffect } from "react";
 import api from "../api";
-import Entry from "../components/Entry"
+import Entry from "../components/Entry";
+import "../styles/Home.css"
+import Navbar from "../components/Navbar";
+import { Tile, TileSlider } from "../components/TileSlider";
+import AddEntryForm from "../components/AddEntryForm";
+
 
 function Home() {
     const [entries, setEntries] = useState([]);
-    const [title, setTitle] = useState("");
-    const [value, setValue] = useState("");
-    const [category, setCategory] = useState("");
-
 
     useEffect(() => {
         getEntries();
@@ -25,70 +26,71 @@ function Home() {
     };
 
     const deleteEntry = (id) => {
-        api
-            .delete(`/api/entries/delete/${id}/`)
+        api.delete(`/api/entries/delete/${id}/`)
             .then((res) => {
-                if (res.status === 204) alert("entry deleted!");
-                else alert("Failed to delete entry.");
-                getEntries();
+                if (res.status === 204) {
+                    // Delete entry client-side
+                    setEntries((prevEntries) => prevEntries.filter((entry) => entry.id !== id));
+                } else {
+                    alert("Failed to delete entry.");
+                }
             })
             .catch((error) => alert(error));
     };
 
-    const createEntry = (e) => {
-        e.preventDefault();
-        api
-            .post("/api/entries/", {title, value, category})
-            .then((res) => {
-                if (res.status === 201) alert("Entry added!");
-                else alert("Failed to add the entry.");
-                getEntries();
-            })
-            .catch((err) => alert(err));
+    // Add entry client-side
+    const addEntry = (newEntry) => {
+        setEntries((prevEntries) => [newEntry, ...prevEntries]);
     };
 
+    let founds = entries.reduce((sum, entry) => sum + parseFloat(entry.value || 0), 0)
+
     return (
-        <div>
-            <div>
-                <h2>Entries</h2>
-                {entries.map((entry) => (
-                    <Entry entry={entry} onDelete={deleteEntry} key={entry.id} />
-                ))}
+        <div className="home-page-root">
+            <div className="header">
+                <h1>BUDGET PLANNER</h1>
             </div>
-            <h2>Add an entry</h2>
-            <form onSubmit={createEntry}>
-                <label htmlFor="title">Title:</label>
-                <br />
-                <input
-                    type="text"
-                    id="title"
-                    name="title"
-                    required
-                    onChange={(e) => setTitle(e.target.value)}
-                    value={title}
-                />
-                <label htmlFor="value">Value:</label>
-                <br />
-                <textarea
-                    id="value"
-                    name="value"
-                    required
-                    value={value}
-                    onChange={(e) => setValue(e.target.value)}
-                ></textarea>
-                <br />
-                <textarea
-                    id="category"
-                    name="category"
-                    required
-                    value={category}
-                    onChange={(e) => setCategory(e.target.value)}
-                ></textarea>
-                <br />
-                <input type="submit" value="Submit"></input>
-            </form>
+            <div className="top-section-container">
+                <section className="top-section-left">
+                    <TileSlider>
+                        <Tile><p> Total: {founds} </p></Tile>
+                        <Tile><h1>Inne konto</h1></Tile>
+                    </TileSlider>
+                </section>
+                <section className="top-section-right">
+                    <h1>Tutaj jakieś ładne statystyki/podsumowanie od AI</h1>
+                </section>
+            </div>
+            <div className="low-section-container">
+                <div className="low-section-left">
+                <h2>Entries</h2>
+                    {
+                        entries.map((entry) => (
+                            <Entry entry={entry} onDelete={() => deleteEntry(entry.id)} key={entry.id} />
+                            ))
+                            
+                    }
+                </div>
+                <div className="low-section-right">
+                    <AddEntryForm onEntryAdded={addEntry} />
+                </div>
+            </div>
         </div>
     );
 }
 
-export default Home
+export default Home;
+{/* <>
+    <Navbar>
+
+    </Navbar>
+
+    <EntryList>
+        {
+            entries.map((entry) => (
+                <Entry entry={entry} onDelete={() => deleteEntry(entry.id)} key={entry.id} />
+                ))
+                                
+        }
+    </EntryList>
+</> */}
