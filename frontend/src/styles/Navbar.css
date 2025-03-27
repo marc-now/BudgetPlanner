@@ -1,0 +1,95 @@
+/* Główny kontener nawigacji */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: white;
+  color: #222;
+  padding: 1rem 2rem;
+  width: 100%;
+  font-family: "Inter", sans-serif;
+  border-top: 5px solid;
+  border-image: linear-gradient(to right, #be0160, #f1278c, #be0160) 1;
+}
+
+/* Logo */
+.logo {
+  font-size: 1.8rem;
+  font-weight: bold;
+  background-image: linear-gradient(to bottom, #be0160, #f1278c, #be0160);
+  color: white;
+  padding: 0.8rem 1rem;
+  font-family: "Poppins", sans-serif;
+  font-weight: 700;
+}
+
+.logo a {
+  text-decoration: none;
+  color: white;
+}
+
+/* Linki nawigacyjne */
+.nav-links {
+  display: flex;
+  gap: 1.5rem;
+}
+
+.nav-link {
+  text-decoration: none;
+  color: #222;
+  font-weight: 600;
+  transition: color 0.3s ease;
+}
+
+.nav-link:hover {
+  color: #f1278c;
+}
+
+.nav-placeholder {
+  color: #999;
+}
+
+/* Przyciski po prawej stronie */
+.nav-buttons {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+/* Zmiana języka */
+.language-switcher {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  font-weight: 600;
+  transition: color 0.3s ease;
+}
+
+.language-switcher:hover {
+  color: #f1278c;
+}
+
+.language-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: linear-gradient(to bottom, white 50%, red 50%);
+  border: 1px solid #777;
+  font-size: 14px;
+}
+
+/* Logout button */
+.logout-button {
+  display: flex;
+  align-items: center;
+  color: #222;
+  transition: color 0.3s ease;
+}
+
+.logout-button:hover {
+  color: #f1278c
+}
