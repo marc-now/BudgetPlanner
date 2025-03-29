@@ -60,7 +60,7 @@ function AuthenticationForm()
 
     return (<>
         <div className="auth-form-container">
-            <div className="buttons-container">
+            <div className="method-buttons-container">
                 <button 
                     type="button" 
                     onClick={() => setMethod("login")} 
@@ -76,7 +76,6 @@ function AuthenticationForm()
             </div>
             <div className="inputs-container">
                 <form onSubmit={ method === "login" ? handleLogin : handleRegister} className="form-container">
-                    <h1>{method === "login" ? "Login" : "Register"}</h1>
                     <input
                         className="form-input"
                         type="text"

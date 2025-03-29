@@ -1,3 +1,5 @@
+@import "global.css";
+
 /* Główny kontener nawigacji */
 .navbar {
   display: flex;
@@ -9,16 +11,15 @@
   width: 100%;
   font-family: "Inter", sans-serif;
   border-top: 5px solid;
-  border-image: linear-gradient(to right, #be0160, #f1278c, #be0160) 1;
+  border-image: linear-gradient(to right, var(--primary), var(--secondary), var(--primary)) 1;
 }
 
 /* Logo */
 .logo {
-  font-size: 1.8rem;
-  font-weight: bold;
-  background-image: linear-gradient(to bottom, #be0160, #f1278c, #be0160);
+  background-image: linear-gradient(to bottom, var(--primary), var(--secondary), var(--primary));
   color: white;
   padding: 0.8rem 1rem;
+  font-size: 1.8rem;
   font-family: "Poppins", sans-serif;
   font-weight: 700;
 }
@@ -42,7 +43,7 @@
 }
 
 .nav-link:hover {
-  color: #f1278c;
+  color: var(--secondary);
 }
 
 .nav-placeholder {
@@ -67,7 +68,7 @@
 }
 
 .language-switcher:hover {
-  color: #f1278c;
+  color: var(--secondary);
 }
 
 .language-icon {
@@ -91,5 +92,5 @@
 }
 
 .logout-button:hover {
-  color: #f1278c
+  color: var(--secondary)
 }

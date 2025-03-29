@@ -1,3 +1,5 @@
+@import "global.css";
+
 html, body {
     margin: 0;
     padding: 0;
@@ -32,7 +34,10 @@ html, body {
     display: flex;
     justify-content: center;
     align-items: center;
-    background: linear-gradient(90deg, #cfecd0, #ffc5ca);
+    background-image: linear-gradient(to bottom, var(--primary), var(--secondary), var(--secondary), var(--primary));
+    color: white;
+    font-family: "Poppins", sans-serif;
+    font-weight: 700;
 }
 
 .footer {

@@ -1,7 +1,12 @@
+@import "global.css";
+
 .auth-form-container {
     max-width: 500px;
     min-width: 300px;
+    width: 400px;
     margin: 0;
+    display: flex;
+    flex-direction: column;
 }
 
 .form-container {
@@ -9,47 +14,48 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    /* margin: 50px auto; */
-    padding: 20px;
-    /* border-radius: 8px; */
-    /* box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); */
-    /* max-width: 400px; */
+    padding: 0px;
   }
   
+  .method-buttons-container {
+    display: flex;
+    flex-direction: row;
+  }
+
+  .method-buttons-container button {
+    flex: 1
+  }
+
   .form-input {
     width: 90%;
     padding: 10px;
     margin: 10px 0;
     border: 1px solid #ccc;
-    /* border-radius: 4px; */
-    box-sizing: border-box;
+    border-radius: 0px;
   }
-  
+
+  .form-input:active {
+    border: 1px solid var(--primary);
+  }
+
   .form-button {
-    width: 95%;
+    width: 100%;
     padding: 10px;
     margin: 20px 0;
-    background-color: #007bff;
+    background-color: var(--primary);
     color: white;
     border: none;
-    /* border-radius: 4px; */
     cursor: pointer;
     transition: background-color 0.2s ease-in-out;
+    font-size: 1.2rem;
+    font-family: "Poppins", sans-serif;
+    font-weight: 700;
   }
 
 .active {
-    background-color: crimson !important;
+    background-color: var(--secondary) !important;
   }
   
 .form-button:hover {
-    background-color: #0056b3;
+    background-color: var(--secondary);
   }
-
-.buttons-container {
-    display: flex;
-}
-
-.buttons-container button {
-    flex: 1;
-}
-  

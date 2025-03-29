@@ -1,3 +1,5 @@
+@import "global.css";
+
 *,
 *::before,
 *::after {
@@ -26,20 +28,14 @@
 
 .img-slider-btn:hover,
 .img-slider-btn:focus-visible {
-  background-color: rgb(0, 0, 0, 0.2);
+  background-color: #00000022;
 }
 
 .img-slider-btn > * {
   stroke: white;
-  fill: black;
+  fill: var(--secondary);
   width: 2rem;
   height: 2rem;
-}
-
-@keyframes squish {
-  50% {
-    scale: 1.4 0.6;
-  }
 }
 
 .img-slider-dot-btn {
@@ -58,7 +54,7 @@
 
 .img-slider-dot-btn > * {
   stroke: white;
-  fill: black;
+  fill: var(--secondary);
   height: 100%;
   width: 100%;
 }
@@ -97,11 +93,6 @@
 @media not (prefers-reduced-motion) {
   .img-slider-img {
     transition: translate 300ms ease-in-out;
-  }
-
-  .img-slider-btn:hover > *,
-  .img-slider-btn:focus-visible > * {
-    animation: squish 200ms ease-in-out;
   }
 }
 
