@@ -11,23 +11,21 @@ function Entry({entry, onDelete}) {
     }
 
     return (
-        <div className={`entry-container`}>
+        <div className={`entry-container ${expanded ? "expanded" : ""}`}>
             <div className="entry-heading"> 
                 <p className="entry-title">{entry.title}</p>
                 <p className="entry-content">{entry.category.name}</p>
-                <p className="entry-content">{entry.value}</p> 
-                <button className="entry-button" onClick={toggleExpanded}>
+                <p className={`entry-content ${entry.value > 0 ? "income" : "expense"}`}>{entry.value}</p> 
+                <button className="entry-button expand" onClick={toggleExpanded}>
                     <ChevronDown />
                 </button>           
             </div>
-            <div className={`entry-details ${expanded ? "expanded" : ""}`}>
+            <div className={`entry-details`}>
                 <div className="inner">
                     <p className="entry-account">konto</p>
                     <p className="entry-subcategory">podkategoria</p>
                     <p className="entry-date">{formattedDate}</p>
-                    <button className="entry-button" onClick={() => onDelete(entry.id)}>
-                        <Trash2 />
-                    </button>
+                    <button className="entry-button edit"><Pencil /></button>
                     <p className="entry-description">
                         Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quis impedit et 
                         doloribus aliquid earum, a enim nulla voluptate commodi dolore cupiditate 
@@ -35,7 +33,9 @@ function Entry({entry, onDelete}) {
                         doloribus aliquid earum, a enim nulla voluptate commodi dolore cupiditate 
                         iusto nisi, aspernatur facilis porro. Dolor rem accusamus ipsam.
                     </p>
-                    <button className="entry-button"><Pencil /></button>
+                    <button className="entry-button delete" onClick={() => onDelete(entry.id)}>
+                        <Trash2 />
+                    </button>
                 </div>
             </div>
         </div>

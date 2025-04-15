@@ -9,9 +9,9 @@
   width: 600px;
 }
 
-.entry-container:hover {
+/* .entry-container:hover {
   border-color: var(--primary);
-}
+} */
 
 .entry-title {
   color: #222;
@@ -24,6 +24,14 @@
 
 .entry-date {
   color: #222;
+}
+
+.income {
+  color: var(--green)
+}
+
+.expense {
+  color: var(--red);
 }
 
 .entry-button {
@@ -39,10 +47,29 @@
   background: none;
   border: 1px solid var(--secondary);
   border-radius: 5px;
+  transition: color 0.2s ease-out, border-color 0.2s ease-out, transform 0.2s ease;
+}
+
+.entry-button svg {
+  transition: transform 0.2s ease;
 }
 
 .inner > .entry-button {
   align-self: start;
+}
+
+.entry-button:hover {
+  color: var(--primary);
+  border-color: var(--primary);
+}
+
+.entry-button.delete:hover {
+  color: var(--red);
+  border-color: var(--red);
+}
+
+.entry-container.expanded .entry-button.expand > svg{
+  transform: rotate(180deg);
 }
 
 .entry-description {
@@ -51,28 +78,13 @@
   align-self: start;
 }
 
-.delete-button {
-  background-color: #f44336;
-  /* Red */
-  color: white;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.3s;
-}
-
-.delete-button:hover {
-  background-color: #d32f2f;
-  /* Darker red */
-}
 .entry-details {
   display: grid;
   grid-template-rows: 0fr;
   transition: grid-template-rows 0.5s ease-out;
 }
 
-.entry-details.expanded {
+.entry-container.expanded .entry-details {
   grid-template-rows: 1fr;
 }
 
