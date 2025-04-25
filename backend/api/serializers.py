@@ -1,6 +1,6 @@
 from django.contrib.auth.models import User
 from rest_framework import serializers
-from .models import Account, Category, Entry
+from .models import Account, Category, Entry, Subcategory
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -10,7 +10,6 @@ class UserSerializer(serializers.ModelSerializer):
         extra_kwargs = {"password": {"write_only": True}}
 
     def create(self, validated_data):
-        print(validated_data)
         user = User.objects.create_user(**validated_data)
         return user
 
@@ -24,10 +23,16 @@ class CategorySerializer(serializers.ModelSerializer):
         model = Category
         fields = ["id", "name"]
 
+class SubcategorySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Subcategory
+        fields = ["id", "name", "category"]
+
 class EntrySerializer(serializers.ModelSerializer):
     category = CategorySerializer(read_only=True)
+    account = AccountSerializer()
+    subcategory = SubcategorySerializer(read_only=True)
 
     class Meta:
         model = Entry
-        fields = ["id", "title", "value", "account", "category", "date"]
-        extra_kwargs = {"account": {"read_only": True}}
+        fields = ["id", "title", "value", "account", "category", "subcategory", "description", "date"]
