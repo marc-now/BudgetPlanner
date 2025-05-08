@@ -29,10 +29,27 @@ class SubcategorySerializer(serializers.ModelSerializer):
         fields = ["id", "name", "category"]
 
 class EntrySerializer(serializers.ModelSerializer):
+    # ID for POST purposes
+    account_id = serializers.PrimaryKeyRelatedField(
+        source='account',
+        queryset=Account.objects.all(),
+        write_only=True
+    )   
+    # Whole data for GET purposes
+    account = AccountSerializer(read_only=True)
+
+    # Names for simplicity of POST
+    # Whole serializers for GETS to avoid N+1
+    category_name = serializers.CharField(write_only=True)
+    subcategory_name = serializers.CharField(write_only=True)
     category = CategorySerializer(read_only=True)
-    account = AccountSerializer()
     subcategory = SubcategorySerializer(read_only=True)
 
     class Meta:
         model = Entry
-        fields = ["id", "title", "value", "account", "category", "subcategory", "description", "date"]
+        fields = [
+            "id", "title", "value", "description", "date",
+            "account", "account_id",
+            "category", "category_name",
+            "subcategory", "subcategory_name",
+        ]

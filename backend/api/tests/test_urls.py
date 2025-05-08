@@ -4,6 +4,7 @@ import api.views as views
 import api.models as models
 from django.contrib.auth.models import User
 from rest_framework_simplejwt.tokens import RefreshToken
+import datetime
 
 class RegisterUserAPITest(APITestCase):
     """Test endpoints related to User registration"""
@@ -95,3 +96,21 @@ class EntriesAPITest(APITestCase):
         self.assertEqual(response.data[0]["subcategory"]["name"], self.entry.subcategory.name)
         self.assertEqual(response.data[0]["description"], self.entry.description)
 
+    def test_entries_create(self):
+        """Test if authenticated User can successfully create an Entry"""
+
+        data = {
+            "title": "Brand new entry",
+            "value": 9.99,
+            "account_id": self.account.id,
+            "category_name": self.category.name,
+            "subcategory_name": self.subcategory.name,
+            "description": "A description of a brand new entry"
+        }
+        
+        #print(data)
+
+        response = self.client.post(self.url, data, format="json", HTTP_AUTHORIZATION=self.authorization)
+
+        # Check if status == 201 Created
+        self.assertEqual(response.status_code, 201)

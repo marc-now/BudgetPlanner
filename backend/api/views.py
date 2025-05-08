@@ -1,9 +1,9 @@
 from django.shortcuts import render
 from django.contrib.auth.models import User
-from rest_framework import generics
-from .serializers import UserSerializer, AccountSerializer, CategorySerializer, EntrySerializer
+from rest_framework import generics, serializers
+from .serializers import UserSerializer, AccountSerializer, CategorySerializer, EntrySerializer, SubcategorySerializer
 from rest_framework.permissions import IsAuthenticated, AllowAny
-from .models import Account, Category, Entry
+from .models import Account, Category, Entry, Subcategory
 
 
 class AccountListCreate(generics.ListCreateAPIView):
@@ -33,16 +33,25 @@ class EntryListCreate(generics.ListCreateAPIView):
     permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
-        # sprawdzmay obiekty account z danego entry
-        # z nich sprawdzamy obiekty user
-        # jesli sie zgadza, to zwracamy
-        return Entry.objects.filter(account__user=self.request.user)
+        # We check Account object in the given Entry
+        # in the Account, we check the User
+        # if the User matches the User in request, we return the Entry
+        return Entry.objects.filter(account__user=self.request.user).select_related(
+            "account", "category", "subcategory" # All 3 are just IDs (FKs) in the Model, but select_related returns whole objects
+        )
 
     def perform_create(self, serializer):
-        default_account = Account.objects.filter(user=self.request.user).first()
-        category_name = self.request.data.get("category")
-        category, created = Category.objects.get_or_create(name=category_name)
-        serializer.save(account=default_account, category=category)
+        account = serializer.validated_data["account"]
+        if account.user != self.request.user:
+            raise serializers.ValidationError("Selected Account does not belong to the authenticated User!")
+
+        category_name = serializer.validated_data.pop("category_name")
+        subcategory_name = serializer.validated_data.pop("subcategory_name")
+
+        category, _ = Category.objects.get_or_create(name=category_name)
+        subcategory, _ = Subcategory.objects.get_or_create(name=subcategory_name, category=category)
+
+        serializer.save(category=category, subcategory=subcategory)
 
 class CategoryListCreate(generics.ListCreateAPIView):
     serializer_class = CategorySerializer
