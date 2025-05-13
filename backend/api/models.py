@@ -20,10 +20,10 @@ class Entry(models.Model):
     title = models.CharField(max_length=100)
     value = models.DecimalField(max_digits=12, decimal_places=2)
     account = models.ForeignKey(Account, on_delete=models.CASCADE, related_name="entries")
-    category = models.ForeignKey(Category, null=True ,on_delete=models.SET_NULL, related_name="expenses")
-    subcategory = models.ForeignKey(Subcategory, null=True, on_delete=models.SET_NULL, related_name="expenses")
-    description = models.CharField(max_length=256, null=True)
+    category = models.ForeignKey(Category, null=True, blank=True, on_delete=models.SET_NULL, related_name="expenses")
+    subcategory = models.ForeignKey(Subcategory, null=True, blank=True, on_delete=models.SET_NULL, related_name="expenses")
+    description = models.CharField(max_length=256, null=True, blank=True,)
     date = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f"{title} - {value} - {date}"
+        return f"{self.id} - {self.title} - {self.value} - {self.date}"

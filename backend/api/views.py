@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.contrib.auth.models import User
-from rest_framework import generics, serializers
+from rest_framework.response import Response
+from rest_framework import generics, serializers, status
 from .serializers import UserSerializer, AccountSerializer, CategorySerializer, EntrySerializer, SubcategorySerializer
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from .models import Account, Category, Entry, Subcategory
@@ -40,19 +41,6 @@ class EntryListCreate(generics.ListCreateAPIView):
             "account", "category", "subcategory" # All 3 are just IDs (FKs) in the Model, but select_related returns whole objects
         )
 
-    def perform_create(self, serializer):
-        account = serializer.validated_data["account"]
-        if account.user != self.request.user:
-            raise serializers.ValidationError("Selected Account does not belong to the authenticated User!")
-
-        category_name = serializer.validated_data.pop("category_name")
-        subcategory_name = serializer.validated_data.pop("subcategory_name")
-
-        category, _ = Category.objects.get_or_create(name=category_name)
-        subcategory, _ = Subcategory.objects.get_or_create(name=subcategory_name, category=category)
-
-        serializer.save(category=category, subcategory=subcategory)
-
 class CategoryListCreate(generics.ListCreateAPIView):
     serializer_class = CategorySerializer
     permission_classes = [IsAuthenticated]
@@ -66,6 +54,31 @@ class EntryDelete(generics.DestroyAPIView):
 
     def get_queryset(self):
         return Entry.objects.filter(account__user=self.request.user)
+
+    def destroy(self, request, *args, **kwargs):
+        instance = self.get_object()
+        # Save data before deleting so it can be returned in response properly
+        serializer_data = self.get_serializer(instance).data
+        self.perform_destroy(instance)
+        return Response(serializer_data, status=status.HTTP_200_OK)
+
+class EntryUpdate(generics.UpdateAPIView):
+    serializer_class = EntrySerializer
+    permission_classes = [IsAuthenticated]
+    lookup_field = 'pk'
+
+    def get_queryset(self):
+        return Entry.objects.filter(account__user=self.request.user)
+
+    def update(self, request, *args, **kwargs):
+        instance = self.get_object()
+        serializer= self.get_serializer(instance,data=request.data,partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+
+        else:
+            return Response({"message":"failed"})
 
 
 class CreateUserView(generics.CreateAPIView):
